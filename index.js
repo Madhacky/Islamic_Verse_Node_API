@@ -49,7 +49,7 @@ const profileSchema = new mongoose.Schema({
 
 
 app.use(bodyParser.json());
-app.post('/data', async (req, res) => {
+app.post('/searchHadith', async (req, res) => {
     const hadithh=req.body.hadithtype;
     const profile = mongoose.model(hadithh, profileSchema);
     const data = await profile.find({hadithnumber:req.body.hadithnumberr});
