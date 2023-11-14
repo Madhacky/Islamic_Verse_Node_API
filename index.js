@@ -1,25 +1,3 @@
-// import express from 'express';
-// import { initializeConnection } from './server.js';
-// import cors from "cors";
-// import { routes } from './src/routes/routes.js';
-
-// const app = express();
-// app.use(cors());
-// app.use(express.json());
-
-
-// routes.forEach(route =>{
-//     app[route.method](route.path,route.handler)
-
-// })
-
-
-
-// initializeConnection().then(()=>{
-//     app.listen(8000,()=>{
-//         console.log("Db connected and server is up at 8000")
-//     })
-// })
 
 const express = require("express");
 const app = express();
@@ -29,13 +7,13 @@ const mongoose = require("mongoose");
 var bodyParser = require('body-parser');
 const uri = "mongodb+srv://fraxplays06:hadith@cluster0.ajzcq7n.mongodb.net/allhadith";
 
-mongoose.connect(uri).then((e)=>{
-    
+mongoose.connect(uri).then((e) => {
+
     console.log("DB Connected");
 });
 var reference = new mongoose.Schema({
     book: Number,
-    hadith:Number
+    hadith: Number
 
 });
 
@@ -44,15 +22,26 @@ const profileSchema = new mongoose.Schema({
     arabicnumber: Number,
     text: String,
     grades: Array,
-    reference:reference
+    reference: reference
 });
 
 
 app.use(bodyParser.json());
 app.post('/searchHadith', async (req, res) => {
-    const hadithh=req.body.hadithtype;
+    const hadithh = req.body.hadithbook;
     const profile = mongoose.model(hadithh, profileSchema);
-    const data = await profile.find({hadithnumber:req.body.hadithnumberr});
+    const data = await profile.find({ hadithnumber: req.body.hadithNumber });
+    const count = await profile.find().count();
+    console.log("total docs : " + count);
+    res.status(200).json(data);
+});
+//get all hadith with book name
+app.get('/getAllHadithByBookName', async (req, res) => {
+    const hadithbook = req.query.bookName;
+    const profile = mongoose.model(hadithbook, profileSchema);
+    const data = await profile.find();
+    const count = await profile.find().count();
+    console.log("total docs : " + count);
     res.status(200).json(data);
 });
 
@@ -61,26 +50,4 @@ app.listen(PORT, function (err) {
     console.log("Server listening on PORT", PORT);
 });
 
-app.post("/addData", async (req, res) => {
-    const data = new profile({
-        hadithnumber: req.body.hadithnumber,
-        arabicnumber: req.body.arabicnumber,
-        text: req.body.text,
-        grades: req.body.grades,
-        reference:req.body.reference
-    })
-    await profile.insertMany(
-        data
-    ).then(() => {
-        res.send(data)
-    })
 
-    // const data = new Model({
-    //     Name: req.body.name,
-    //     Age: req.body.age,
-    //     phonenumber:req.body.phonenumber,
-    //     grades:req.body.grades
-    // });
-    // const dataToSave = data.save();
-    //     res.status(200).json(dataToSave)
-})
