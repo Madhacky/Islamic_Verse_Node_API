@@ -27,7 +27,7 @@ const PORT = 3000;
 const mongoose = require("mongoose");
 
 var bodyParser = require('body-parser');
-const uri = "mongodb://127.0.0.1:27017/allhadith";
+const uri = "mongodb+srv://fraxplays06:hadith@cluster0.ajzcq7n.mongodb.net/allhadith";
 
 mongoose.connect(uri).then((e)=>{
     
