@@ -1,8 +1,7 @@
 
 const express = require("express");
 const app = express();
-const PORT = 3000;
-
+require('dotenv').config()
 
 
 const searchHadithByNumber=require("./src/routes/searchHadithByNumber");
@@ -12,9 +11,9 @@ dbConnection();
 app.use("/api",searchHadithByNumber,);
 app.use("/api",getAllHadithByBookName);
 
-app.listen(PORT, function (err) {
+app.listen(process.env.PORT, function (err) {
     if (err) console.log(err);
-    console.log("Server listening on PORT", PORT);
+    console.log("Server listening on PORT", process.env.PORT);
 });
 
 
