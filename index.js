@@ -1,9 +1,10 @@
 
 const express = require("express");
 const app = express();
-require('dotenv').config()
+var cors = require('cors');
+require('dotenv').config();
 
-
+app.use(cors());
 const searchHadithByNumber=require("./src/routes/searchHadithByNumber");
 const getAllHadithByBookName=require("./src/routes/getHadithByBookName");
 const dbConnection= require("./src/services/dbConnection")
