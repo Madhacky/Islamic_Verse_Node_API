@@ -16,7 +16,16 @@ router.post('/searchHadith', async (req, res) => {
         const data = await loadedHadith.find({ hadithnumber: req.body.hadithNumber });
         const count = await loadedHadith.find().count();
         console.log("total docs : " + count);
-        res.status(200).json(data);
+        if (data.length == 0) {
+            console.log("empty");
+            res.status(422).json({
+                "message": "hadith not found , pls check hadith number and book name!"
+            }
+            )
+        } else {
+            res.status(200).json(data);
+        }
+
     } catch (error) {
         res.status(400).json({ errorMessage: error });
     }
