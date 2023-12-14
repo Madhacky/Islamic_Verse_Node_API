@@ -10,11 +10,9 @@ const loadHadithModel = require("../models/haidithSchema")
 router.get('/searchByKeyword', async (req, res) => {
     let hadithbook = req.query.bookName;
     let searchKeyword = req.query.Keyword;
-    const modify = new RegExp(`\\b${searchKeyword}`, 'i');
     const loadedHadith = loadHadithModel(hadithbook);
-    const data = await loadedHadith.find({ "$or": [{ text: { $regex: modify } }] });
+    const data = await loadedHadith.find({$text:{$search:searchKeyword}});
     const count = data.length;
-
     console.log("total docs : " + count);
     if (data.length == 0) {
         res.status(422).json({
