@@ -11,8 +11,9 @@ router.get('/searchByKeyword', async (req, res) => {
     let hadithbook = req.query.bookName;
     let searchKeyword = req.query.Keyword;
     const loadedHadith = loadHadithModel(hadithbook);
-    const data = await loadedHadith.find({$text:{$search:searchKeyword}});
+    const data = await loadedHadith.find({ $text: { $search: searchKeyword } });
     const count = data.length;
+
     console.log("total docs : " + count);
     if (data.length == 0) {
         res.status(422).json({
@@ -25,5 +26,6 @@ router.get('/searchByKeyword', async (req, res) => {
         });
     }
 });
+
 
 module.exports = router;
