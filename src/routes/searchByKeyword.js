@@ -20,9 +20,30 @@ router.get('/searchByKeyword', async (req, res) => {
             "message": `no hadith found with ${searchKeyword}  keyword :)`
         })
     } else {
+        let bookName;
+switch(hadithbook){
+    case "muslim": bookName="Sahih Muslim";
+    break;
+    case "bukhari": bookName="Sahih al-Bukhari";
+    break;
+    case "abudawud": bookName="Sunan Abu Dawood";
+    break;
+    case "tirmidhi": bookName="Sunan al-Tirmidhi";
+    break;
+    case "nasai": bookName="Sunan al-Nasai";
+    break;
+    case "ibnmajah": bookName="Sunan ibn Majah";
+    break;
+    case "malik": bookName="Anas ibn Malik";
+    break;
+    default: console.log("error")
+    
+}
+
         res.status(200).json({
             "hadith": data,
-            "total hadith": `total hadith with ${searchKeyword} keyword found is ${count}`
+            "total hadith": `total hadith with ${searchKeyword} keyword found is ${count}`,
+            "bookName":bookName
         });
     }
 });
